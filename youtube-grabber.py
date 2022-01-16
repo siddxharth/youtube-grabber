@@ -46,3 +46,31 @@ videoCommentCount = youTubeVideoResponse["items"][0]["statistics"]["commentCount
 os.system('clear')
 print("Video Title: " + videoTitle)
 print("Channel: " + videoChannelTitle)
+
+# Call youtube-dl to get video info
+os.system('youtube-dl --write-info-json --skip-download "' + videoId + '"')
+
+# rename file from youtube-dl to youTubeVideoData.json
+fileName = videoTitle + "-" + videoId + ".info.json"
+os.rename(fileName, "youTubeVideoData.json")
+
+# Read data from youTubeVideoData.json file
+json_file = open('youTubeVideoData.json')
+for i in json_file:
+    youTubeVideoData = json.loads(i)
+youTubeVideoData = json.dumps(youTubeVideoData, indent=4)
+
+
+# Print video info to user
+print("Video formats available: ")
+for i in range(len(youTubeVideoData["formats"])):
+    videoHeight = youTubeVideoData["formats"][i]["height"]
+    videoWidth = youTubeVideoData["formats"][i]["width"]
+    videoFormat = youTubeVideoData["formats"][i]["format"]
+    videoExt = youTubeVideoData["formats"][i]["ext"]
+    if "audio only" in videoFormat:
+        print("\nAudio Only")
+        continue
+    formatId = youTubeVideoData["formats"][i]["format_id"]
+    formatNote = youTubeVideoData["formats"][i]["format_note"]
+    print(str(i + 1) + ". (" + formatId + ") " + formatNote + " " + videoExt)

@@ -2,7 +2,7 @@ import time
 from posixpath import split
 from googleapiclient.discovery import build
 import json
-from os import system
+from os import system, rename
 
 GoogleApiKey = 'AIzaSyAY19lM15PP3yvmPgZlsZQA0-t8i6pogmE'
 
@@ -35,8 +35,9 @@ system("youtube-dl \""+ videoLink + "\" --write-info-json --skip-download")
 
 fileName = title+"-"+videoID+".info.json"
 
+rename(fileName, "youTubeVideoData.json")
+fileName = "youTubeVideoData.json"
 file = open(fileName, "r")
-os.rename(fileName, "youTubeVideoData.json")
 for i in file:
     video_json_data = json.loads(i)
 
