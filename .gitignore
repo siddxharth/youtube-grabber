@@ -1,4 +1,5 @@
 .env
 .demo.py
+.DS_Store
 youTubeVideoData.json
 youtube-grabber
